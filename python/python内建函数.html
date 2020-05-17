@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="PPD,专业研究大数据时代的数据安全，红蓝对抗, 偶尔走神渗透测试走一波。">
+  <meta name="keyword" content="">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      python内建函数 | PPD安全研究
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>PPD安全研究</span>
+    </a>
+    <ul class="right-list" id="nav">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/bigdata/" class="item-link">BigData</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/linux/" class="item-link">Linux</a>
+		
+			<ul>
+				
+					<li>
+						<a href="/linux/kernel/" class="menu-link">kernel</a>
+					</li>
+				
+					<li>
+						<a href="/linux/commandfu/" class="menu-link">commandfu</a>
+					</li>
+				
+			</ul>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/python/" class="item-link">Python</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/cheatsheet/" class="item-link">CheatSheet</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+		
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/bigdata/" class="menu-link">BigData</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/linux/" class="menu-link">Linux</a>
+		
+			<ul>
+				
+					<li>
+						<a href="/linux/kernel/" >kernel</a>
+					</li>
+				
+					<li>
+						<a href="/linux/commandfu/" >commandfu</a>
+					</li>
+				
+			</ul>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/python/" class="menu-link">Python</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/cheatsheet/" class="menu-link">CheatSheet</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+		
+
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>python内建函数</h2>
+  <p class="post-date">2020-01-13</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="截止到3-8-1版本，python一共有69个内建函数"><a href="#截止到3-8-1版本，python一共有69个内建函数" class="headerlink" title="截止到3.8.1版本，python一共有69个内建函数"></a><strong>截止到3.8.1版本，python一共有69个内建函数</strong></h1><h2 id="abs-x"><a href="#abs-x" class="headerlink" title="abs(x)"></a>abs(x)</h2><ul>
+<li>返回x的绝对值</li>
+<li>参数类型：整数、浮点、复数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; abs(-100)               #整数</span><br><span class="line">100</span><br><span class="line">&gt;&gt;&gt; abs(-3.1415926)         #浮点数</span><br><span class="line">3.1415926</span><br><span class="line">&gt;&gt;&gt; abs(3+4j)               #复数  3^2+4^2 开`平方根`的绝对值</span><br><span class="line">5.0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重载 abs, 需要定义 <code>__abs__</code> 方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class my_abs():</span><br><span class="line">...         def __abs__(self):</span><br><span class="line">...             return &apos;hello world&apos;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; abs(my_abs())</span><br><span class="line">&apos;hello world&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="all-iterable"><a href="#all-iterable" class="headerlink" title="all(iterable)"></a>all(iterable)</h2><ul>
+<li>判断可迭代参数中的元素是否都为<code>真</code>,或者可迭代参数中元素为<code>空</code></li>
+<li>参数类型：<code>可迭代</code>的参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; all([1,2,3,4,5])        #元素全为真</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; all([1,2,3,4,0])        #元素有一个为假</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; all([])                 #没有元素</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<h2 id="any-iterable"><a href="#any-iterable" class="headerlink" title="any(iterable)"></a>any(iterable)</h2><ul>
+<li>判断可迭代参数中的<code>任意</code>元素为<code>真</code>,或者可迭代参数元素为<code>空</code></li>
+<li>参数类型：<code>可迭代</code>的参数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; any([1,2,3,4,5])        #元素全为真</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; any([0,0,0,0,1])        #元素只有一个为真</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; any([0,0,0,0,0])        #元素全为假</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; any([])                 #没有元素</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="chr-i"><a href="#chr-i" class="headerlink" title="chr(i)"></a>chr(i)</h2><ul>
+<li>返回unicode码点为i的字符串</li>
+<li>参数类型： 整数 <code>0</code> &lt;= i &lt;= <code>0x10ffff</code></li>
+<li><p>与 ord(c) 是一对</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; chr(97)</span><br><span class="line">&apos;a&apos;</span><br><span class="line">&gt;&gt;&gt; chr(int(&apos;1000&apos;,16))</span><br><span class="line">&apos;က&apos;</span><br><span class="line">&gt;&gt;&gt; chr(int(&apos;001f600&apos;,16))</span><br><span class="line">&apos;😀&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>参数超出范围，报<code>ValueError</code>错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; chr(int(&apos;10ffff&apos;,16))</span><br><span class="line">&apos;\U0010ffff&apos;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; chr(int(&apos;11ffff&apos;,16))</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">ValueError: chr() arg not in range(0x110000)</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; chr(int(&apos;110000&apos;,16))</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">ValueError: chr() arg not in range(0x110000)</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; chr(int(&apos;0&apos;,16))</span><br><span class="line">&apos;\x00&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>为什么参数值 0 &lt;=i &lt;= 0x10ffff</code> （下边是unicode的编码范围）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Unicode     Utf-8</span><br><span class="line">000000-00007F     0xxxxxxx</span><br><span class="line">000080-0007FF     110xxxxx 10xxxxxx</span><br><span class="line">000800-00FFFF     1110xxxx 10xxxxxx 10xxxxxx</span><br><span class="line">010000-10FFFF     11110xxx10xxxxxx10xxxxxx10xxxxxx</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="ord-c"><a href="#ord-c" class="headerlink" title="ord(c)"></a>ord(c)</h2><ul>
+<li>返回字符所对应的unicode码点</li>
+<li>参数类型： 字符 (<code>不是字符串</code>)</li>
+<li>与 chr(i) 是一对<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; ord(&apos;ab&apos;)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: ord() expected a character, but string of length 2 found</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; ord(&apos;a&apos;)</span><br><span class="line">97</span><br><span class="line">&gt;&gt;&gt; ord(&apos;😀&apos;)</span><br><span class="line">128512</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="repr-object"><a href="#repr-object" class="headerlink" title="repr(object)"></a>repr(object)</h2><ul>
+<li>返回对象的可打印字符串； 部分对象，eval可以根据可打印字符串还原成对象。</li>
+<li><p>参数类型： 对象 <code>每个对象都有repr方法</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=123</span><br><span class="line">&gt;&gt;&gt; eval(repr(a+1))</span><br><span class="line">124</span><br><span class="line">&gt;&gt;&gt; repr(a+1)                   #repr 返回a+1的值的字符串形式</span><br><span class="line">&apos;124&apos;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; eval(repr([1,2,3,4]))</span><br><span class="line">[1, 2, 3, 4]</span><br><span class="line">&gt;&gt;&gt; repr([1,2,3,4])             #repr返回列表的字符串形式</span><br><span class="line">&apos;[1, 2, 3, 4]&apos;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; class test_repr():</span><br><span class="line">...     def test():</span><br><span class="line">...             return</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; repr(test_repr())</span><br><span class="line">&apos;&lt;__main__.test_repr object at 0x10a7daef0&gt;&apos;    #这种带&lt;&gt;的对象是没法通过eval还原的</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重载repr，需要定义<code>__repr__</code>方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class my_repr():</span><br><span class="line">...     def __repr__(self):</span><br><span class="line">...             return &quot;hello world&quot;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; repr(my_repr())</span><br><span class="line">&apos;hello world&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="ascii-object"><a href="#ascii-object" class="headerlink" title="ascii(object)"></a>ascii(object)</h2><ul>
+<li>和repr(object)一样，返回对象的可打印字符串，<code>但是</code>非ascii以\x, \u, \U的形式表示；部分对象，eval可以根据可打印字符串还原成对象。</li>
+<li><p>参数类型： 对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; print(ascii(chr(int(&apos;b5&apos;,16))))</span><br><span class="line">&apos;\xb5&apos;</span><br><span class="line">&gt;&gt;&gt; print(repr(chr(int(&apos;b5&apos;,16))))</span><br><span class="line">&apos;µ&apos;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; print(ascii(chr(int(&apos;111&apos;,16))))</span><br><span class="line">&apos;\u0111&apos;</span><br><span class="line">&gt;&gt;&gt; print(repr(chr(int(&apos;111&apos;,16))))</span><br><span class="line">&apos;đ&apos;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; print(ascii(chr(int(&apos;1f60a&apos;,16))))</span><br><span class="line">&apos;\U0001f60a&apos;</span><br><span class="line">&gt;&gt;&gt; print(repr(chr(int(&apos;1f60a&apos;,16))))</span><br><span class="line">&apos;😊&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ascii会将非ascii以unicode转译序列表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\xhh  转义序列用于表示码点范围在U+007F ~ U+00FF 之间的 Unicode 字符。</span><br><span class="line">\uxxxx  转义序列用于表示码点范围在U+0100 ~ U+FFFF 之间的 Unicode 字符。</span><br><span class="line">\Uxxxxxxxx  转义序列用于表示码点范围在 U+10000 及以上的字符。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="bin-x"><a href="#bin-x" class="headerlink" title="bin(x)"></a>bin(x)</h2><ul>
+<li>返回整数类型的二进制表示，默认以<code>0b</code>开始。</li>
+<li><p>参数类型：整数， 非整数对象 （需要自己实现<strong>index</strong>,<code>此方法必须返回整数，否则bin会报错</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; bin(8)</span><br><span class="line">&apos;0b1000&apos;</span><br><span class="line">&gt;&gt;&gt; bin(1000)</span><br><span class="line">&apos;0b1111101000&apos;</span><br><span class="line">&gt;&gt;&gt; bin(-10)</span><br><span class="line">&apos;-0b1010&apos;</span><br><span class="line">&gt;&gt;&gt; class my_bin():</span><br><span class="line">...     def __index__(self):</span><br><span class="line">...             return &apos;hello&apos;          #返回字符串，bin执行时会报错</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; bin(my_bin())</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: __index__ returned non-int (type str)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; class my_bin():</span><br><span class="line">...     def __index__(self):</span><br><span class="line">...             return 8888</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; bin(my_bin())</span><br><span class="line">&apos;0b10001010111000&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>0b</code>是否需要，可以用如下方法决定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; format(14,&apos;#b&apos;), format(14,&apos;b&apos;)</span><br><span class="line">(&apos;0b1110&apos;, &apos;1110&apos;)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; f&apos;&#123;14:#b&#125;&apos;, f&apos;&#123;14:b&#125;&apos;     #格式化字符串字面量</span><br><span class="line">(&apos;0b1110&apos;, &apos;1110&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="hex-x"><a href="#hex-x" class="headerlink" title="hex(x)"></a>hex(x)</h2><ul>
+<li><code>和bin(x)类似</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; hex(255)</span><br><span class="line">&apos;0xff&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;%x&apos; % 255</span><br><span class="line">&apos;ff&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;%X&apos; % 255</span><br><span class="line">&apos;FF&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;%#x&apos; % 255</span><br><span class="line">&apos;0xff&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;%#X&apos; % 255</span><br><span class="line">&apos;0XFF&apos;</span><br><span class="line">&gt;&gt;&gt; format(255, &apos;#x&apos;), format(255, &apos;#X&apos;), format(255, &apos;x&apos;), format(255, &apos;X&apos;)</span><br><span class="line">(&apos;0xff&apos;, &apos;0XFF&apos;, &apos;ff&apos;, &apos;FF&apos;)</span><br><span class="line">&gt;&gt;&gt; f&apos;&#123;255:#x&#125;&apos;, f&apos;&#123;255:#X&#125;&apos;, f&apos;&#123;255:x&#125;&apos;, f&apos;&#123;255:X&#125;&apos;</span><br><span class="line">(&apos;0xff&apos;, &apos;0XFF&apos;, &apos;ff&apos;, &apos;FF&apos;)</span><br></pre></td></tr></table></figure>
+<h2 id="oct-x"><a href="#oct-x" class="headerlink" title="oct(x)"></a>oct(x)</h2><ul>
+<li><code>和bin(x)，hex(x)类似</code></li>
+</ul>
+<h2 id="format-value-format-spec"><a href="#format-value-format-spec" class="headerlink" title="format(value, [format_spec])"></a>format(value, [format_spec])</h2><ul>
+<li>format_spec 默认是<code>空字符串</code>,效果和<code>str(value)</code>一样</li>
+<li><p>format(value, [format_spec]) 被转为 type(value).__format__(value, [format_spec])</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; format(14,&apos;#b&apos;)</span><br><span class="line">&apos;0b1110&apos;</span><br><span class="line">&gt;&gt;&gt; type(14).__format__(14,&apos;#b&apos;)</span><br><span class="line">&apos;0b1110&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>format_spec 必须为字符串，否则报<code>TypeError</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; type(14).__format__(14,True)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: __format__() argument must be str, not bool</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>format_spec 标准语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">format_spec     ::=  [[fill]align][sign][#][0][width][grouping_option][.precision][type]</span><br><span class="line">fill            ::=  &lt;any character&gt;</span><br><span class="line">align           ::=  &quot;&lt;&quot; | &quot;&gt;&quot; | &quot;=&quot; | &quot;^&quot;      # = 只针对数字</span><br><span class="line">sign            ::=  &quot;+&quot; | &quot;-&quot; | &quot; &quot;            #sign只针对数字</span><br><span class="line">width           ::=  digit+</span><br><span class="line">grouping_option ::=  &quot;_&quot; | &quot;,&quot;</span><br><span class="line">precision       ::=  digit+</span><br><span class="line">type            ::=  &quot;b&quot; | &quot;c&quot; | &quot;d&quot; | &quot;e&quot; | &quot;E&quot; | &quot;f&quot; | &quot;F&quot; | &quot;g&quot; | &quot;G&quot; | &quot;n&quot; | &quot;o&quot; | &quot;s&quot; | &quot;x&quot; | &quot;X&quot; | &quot;%&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; format(&apos;abc&apos;,&apos;:&lt;30&apos;)</span><br><span class="line">&apos;abc:::::::::::::::::::::::::::&apos;        #用:(默认是空格)填充字符串长度到30，填充方向字符串后边</span><br><span class="line">&gt;&gt;&gt; len(format(&apos;abc&apos;,&apos;:&lt;30&apos;))</span><br><span class="line">30</span><br><span class="line">&gt;&gt;&gt; format(&apos;abc&apos;,&apos;:&gt;30&apos;)</span><br><span class="line">&apos;:::::::::::::::::::::::::::abc&apos;        #用:(默认是空格)填充字符串长度到30，填充方向字符串前边</span><br><span class="line">&gt;&gt;&gt; format(&apos;abc&apos;,&apos;&gt;30&apos;)</span><br><span class="line">&apos;                           abc&apos;</span><br><span class="line">&gt;&gt;&gt; format(&apos;abc&apos;,&apos;^30&apos;)</span><br><span class="line">&apos;             abc              &apos;        #用空格填充字符串长度到30， 填充方向：左右填充</span><br><span class="line">&gt;&gt;&gt; format(+120,&apos;0=30&apos;)</span><br><span class="line">&apos;000000000000000000000000000120&apos;        #用0(默认空格)填充数字长度到30， 填充方式：符号之后，数字之前； =只针对数字</span><br><span class="line">&gt;&gt;&gt; format(-120,&apos;0=30&apos;)</span><br><span class="line">&apos;-00000000000000000000000000120&apos;</span><br><span class="line">-----------------</span><br><span class="line">&gt;&gt;&gt; format(-15,&apos;0=-30&apos;)</span><br><span class="line">&apos;-00000000000000000000000000015&apos;</span><br><span class="line">&gt;&gt;&gt; format(-15,&apos;0&gt;-30&apos;)</span><br><span class="line">&apos;000000000000000000000000000-15&apos;</span><br><span class="line">&gt;&gt;&gt; format(-15,&apos;0&lt;-30&apos;)</span><br><span class="line">&apos;-15000000000000000000000000000&apos;         #只针对数字， + - 【space】</span><br><span class="line">&gt;&gt;&gt; format(-15,&apos;0&lt; 30&apos;)</span><br><span class="line">&apos;-15000000000000000000000000000&apos;</span><br><span class="line">&gt;&gt;&gt; format(-15,&apos;0&gt; 30&apos;)</span><br><span class="line">&apos;000000000000000000000000000-15&apos;</span><br><span class="line">&gt;&gt;&gt; format(-15,&apos;0&gt;+30&apos;)</span><br><span class="line">&apos;000000000000000000000000000-15&apos;</span><br><span class="line">&gt;&gt;&gt; format(-15,&apos;0&lt;+30&apos;)</span><br><span class="line">&apos;-15000000000000000000000000000&apos;</span><br><span class="line">------------------</span><br><span class="line">&gt;&gt;&gt; format(15,&apos;&gt;#30o&apos;)</span><br><span class="line">&apos;                          0o17&apos;</span><br><span class="line">&gt;&gt;&gt; format(15,&apos;&gt;#30b&apos;)</span><br><span class="line">&apos;                        0b1111&apos;        # &apos;#&apos;号只针对，整数，浮点，复数，10进制整数</span><br><span class="line">&gt;&gt;&gt; format(15,&apos;&gt;#30x&apos;)</span><br><span class="line">&apos;                           0xf&apos;</span><br><span class="line">&gt;&gt;&gt; format(15,&apos;&gt;#30&apos;)</span><br><span class="line">&apos;                            15&apos;</span><br><span class="line">------------------</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;,&apos;)</span><br><span class="line">&apos;12,345,678&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;&gt;30,&apos;)</span><br><span class="line">&apos;                    12,345,678&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;&gt;+30,&apos;)</span><br><span class="line">&apos;                   +12,345,678&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;&gt;-30,&apos;)</span><br><span class="line">&apos;                    12,345,678&apos;        # , 来表示千位分隔符</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;&gt; 30,&apos;)</span><br><span class="line">&apos;                    12,345,678&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;=+30,&apos;)</span><br><span class="line">&apos;+                   12,345,678&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;0=+30,&apos;)</span><br><span class="line">&apos;+0,000,000,000,000,012,345,678&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678,&apos;n&apos;)</span><br><span class="line">&apos;12345678&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678.888,&apos;n&apos;)            # n 科学计数法表示</span><br><span class="line">&apos;1.23457e+07&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678.888)</span><br><span class="line">&apos;12345678.888&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678.888,&apos;,&apos;)</span><br><span class="line">&apos;12,345,678.888&apos;</span><br><span class="line">----------------------</span><br><span class="line">&gt;&gt;&gt; format(12345678.888,&apos;_&apos;)</span><br><span class="line">&apos;12_345_678.888&apos;</span><br><span class="line">&gt;&gt;&gt; format(12345678.8888888,&apos;_&apos;)</span><br><span class="line">&apos;12_345_678.8888888&apos;</span><br><span class="line">&gt;&gt;&gt; format(0xffffff,&apos;_&apos;)</span><br><span class="line">&apos;16_777_215&apos;</span><br><span class="line">&gt;&gt;&gt; 0xffffff</span><br><span class="line">16777215</span><br><span class="line">&gt;&gt;&gt; format(0xffffff,&apos;,&apos;)                # _ 与 ，的区别，&apos;,&apos;只能在10进制表示时用，&apos;_&apos;10进制，2进制，8进制，16进制都可以用</span><br><span class="line">&apos;16,777,215&apos;</span><br><span class="line">&gt;&gt;&gt; format(0xffffff,&apos;_x&apos;)</span><br><span class="line">&apos;ff_ffff&apos;</span><br><span class="line">&gt;&gt;&gt; format(0xffffff,&apos;_b&apos;)</span><br><span class="line">&apos;1111_1111_1111_1111_1111_1111&apos;</span><br><span class="line">&gt;&gt;&gt; format(0xffffff,&apos;#_b&apos;)</span><br><span class="line">&apos;0b1111_1111_1111_1111_1111_1111&apos;</span><br><span class="line">&gt;&gt;&gt; format(0xffffff,&apos;#,b&apos;)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">ValueError: Cannot specify &apos;,&apos; with &apos;b&apos;.</span><br><span class="line">-----------------------</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2n&apos;)</span><br><span class="line">&apos;8.9e+03&apos;</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2%&apos;)</span><br><span class="line">&apos;888812.34%&apos;</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2e&apos;)</span><br><span class="line">&apos;8.89e+03&apos;</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2E&apos;)</span><br><span class="line">&apos;8.89E+03&apos;</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2f&apos;)</span><br><span class="line">&apos;8888.12&apos;</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2F&apos;)</span><br><span class="line">&apos;8888.12&apos;</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2g&apos;)</span><br><span class="line">&apos;8.9e+03&apos;</span><br><span class="line">&gt;&gt;&gt; format(8888.12345,&apos;.2G&apos;)</span><br><span class="line">&apos;8.9E+03&apos;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>常见用法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &apos;&#123;2&#125;, &#123;0&#125;, &#123;1&#125;&apos;.format(&apos;a&apos;,&apos;b&apos;,&apos;c&apos;)</span><br><span class="line">&apos;c, a, b&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;&#123;2&#125;, &#123;0&#125;, &#123;1&#125;, &#123;2&#125;&#123;2&#125;&apos;.format(&apos;a&apos;,&apos;b&apos;,&apos;c&apos;)</span><br><span class="line">&apos;c, a, b, cc&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;Coordinates: &#123;latitude&#125;, &#123;longitude&#125;&apos;.format(latitude=&apos;37.24N&apos;, longitude=&apos;-115.81W&apos;)</span><br><span class="line">&apos;Coordinates: 37.24N, -115.81W&apos;</span><br><span class="line">&gt;&gt;&gt; coord=(3,5)</span><br><span class="line">&gt;&gt;&gt; &apos;&#123;0[0]&#125;, &#123;0[1]&#125;&apos;.format(coord)</span><br><span class="line">&apos;3, 5&apos;</span><br><span class="line">&gt;&gt;&gt; &quot;repr() shows quotes: &#123;!r&#125;; str() doesn&apos;t: &#123;!s&#125;&quot;.format(&apos;test1&apos;, &apos;test2&apos;)</span><br><span class="line">&quot;repr() shows quotes: &apos;test1&apos;; str() doesn&apos;t: test2&quot;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; import datetime</span><br><span class="line">&gt;&gt;&gt; d = datetime.datetime(2010, 7, 4, 12, 15, 58)</span><br><span class="line">&gt;&gt;&gt; format(d,&apos;%Y-%m-%d %H:%M:%S&apos;)</span><br><span class="line">&apos;2010-07-04 12:15:58&apos;</span><br><span class="line">&gt;&gt;&gt; &apos;&#123;:%Y-%m-%d %H:%M:%S&#125;&apos;.format(d)</span><br><span class="line">&apos;2010-07-04 12:15:58&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="eval-expression-globals-locals"><a href="#eval-expression-globals-locals" class="headerlink" title="eval(expression [, globals [, locals]])"></a>eval(expression [, globals [, locals]])</h2><ul>
+<li>参数是一个字符串表达式，和可选的globals，和locals</li>
+<li>globals 全局命名空间，是一个字典</li>
+<li>locals 局部命名空间，是一个mapping对象</li>
+<li>模块级别， globals和locals是一样的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; def b():</span><br><span class="line">...     c=9000</span><br><span class="line">...     print(globals())</span><br><span class="line">...     print(&apos;-&apos;*10)</span><br><span class="line">...     print(eval(&apos;1+c&apos;))                      #globals和locals都没有的时候， 先找locals命名空间，再找globals命名空间</span><br><span class="line">...     print(eval(&apos;1+c&apos;,&#123;&apos;c&apos;:9999&#125;,locals()))   #globals和locals都有， 先找locals命名空间后找globals命名空间</span><br><span class="line">...     print(eval(&apos;1+c&apos;,&#123;&apos;c&apos;:9999&#125;))           #只有globals，只找globals命名空间，不找locals空间</span><br><span class="line">...     print(locals())</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; b()</span><br><span class="line">&#123;&apos;a&apos;: &lt;function a at 0x10378a398&gt;, &apos;b&apos;: &lt;function b at 0x10378a500&gt;, &apos;__builtins__&apos;: &lt;module &apos;__builtin__&apos; (built-in)&gt;, &apos;age&apos;: 20, &apos;__package__&apos;: None, &apos;x&apos;: 1, &apos;__name__&apos;: &apos;__main__&apos;, &apos;os&apos;: &lt;module &apos;os&apos; from &apos;/usr/local/Cellar/python@2/2.7.16/Frameworks/Python.framework/Versions/2.7/lib/python2.7/os.pyc&apos;&gt;, &apos;__doc__&apos;: None&#125;</span><br><span class="line">----------</span><br><span class="line">9001</span><br><span class="line">9001</span><br><span class="line">10000</span><br><span class="line">&#123;&apos;c&apos;: 9000&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="exec-object-globals-locals"><a href="#exec-object-globals-locals" class="headerlink" title="exec(object [, globals [, locals]])"></a>exec(object [, globals [, locals]])</h2><ul>
+<li>参数是字符串或者代码对象</li>
+<li>返回值是None<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; exec(&apos;import os;os.system(&quot;ls /tmp&quot;)&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="filter-function-iterable"><a href="#filter-function-iterable" class="headerlink" title="filter(function, iterable)"></a>filter(function, iterable)</h2><ul>
+<li>如果function是None，则认为所有为false的元素都移除了，即不做任何变化<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; filter(lambda x: x==2, [1,2,3])</span><br><span class="line">[2]</span><br><span class="line">&gt;&gt;&gt; filter(None, [1,2,3,4])</span><br><span class="line">[1, 2, 3, 4]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="breakpoint-args-kws"><a href="#breakpoint-args-kws" class="headerlink" title="breakpoint(*args, **kws)"></a>breakpoint(*args, **kws)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import pdb</span><br><span class="line">&gt;&gt;&gt; pdb.set_trace()</span><br><span class="line">--Return--</span><br><span class="line">&gt; &lt;stdin&gt;(1)&lt;module&gt;()-&gt;None</span><br><span class="line">(Pdb)</span><br><span class="line">(Pdb) exit</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">  File &quot;/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib/python3.7/bdb.py&quot;, line 92, in trace_dispatch</span><br><span class="line">    return self.dispatch_return(frame, arg)</span><br><span class="line">  File &quot;/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib/python3.7/bdb.py&quot;, line 154, in dispatch_return</span><br><span class="line">    if self.quitting: raise BdbQuit</span><br><span class="line">bdb.BdbQuit</span><br><span class="line">&gt;&gt;&gt; breakpoint()</span><br><span class="line">--Return--</span><br><span class="line">&gt; &lt;stdin&gt;(1)&lt;module&gt;()-&gt;None</span><br><span class="line">(Pdb) exit</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">  File &quot;/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib/python3.7/bdb.py&quot;, line 92, in trace_dispatch</span><br><span class="line">    return self.dispatch_return(frame, arg)</span><br><span class="line">  File &quot;/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib/python3.7/bdb.py&quot;, line 154, in dispatch_return</span><br><span class="line">    if self.quitting: raise BdbQuit</span><br><span class="line">bdb.BdbQuit</span><br></pre></td></tr></table></figure>
+<h2 id="callable-object"><a href="#callable-object" class="headerlink" title="callable(object)"></a>callable(object)</h2><ul>
+<li>返回True，如果object可调用，否则返回False；</li>
+<li>如果实现了<strong>call</strong>()方法则可调用；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class test(object):</span><br><span class="line">...     def __call__():</span><br><span class="line">...             return &quot;hello&quot;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; test()</span><br><span class="line">&lt;__main__.test object at 0x1011af400&gt;</span><br><span class="line">&gt;&gt;&gt; callable(test())</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; mtest= test()</span><br><span class="line">&gt;&gt;&gt; callable(mtest)</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<h2 id="compile-source-filename-mode-flags-0-dont-inherit-False-optimize-1"><a href="#compile-source-filename-mode-flags-0-dont-inherit-False-optimize-1" class="headerlink" title="compile(source, filename, mode, flags=0, dont_inherit=False, optimize=-1)"></a>compile(source, filename, mode, flags=0, dont_inherit=False, optimize=-1)</h2><ul>
+<li>source：字符串或者AST对象</li>
+<li>filename： 代码文件名称</li>
+<li>mode： exec，eval，single</li>
+<li>flags： 变量作用域</li>
+<li>flags和dont_inheritSHI YO你过来控制编译器的编译参数，类似gcc的编译参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; str=&apos;for i in range(0,10): print(i)&apos;</span><br><span class="line">&gt;&gt;&gt; c = compile(str, &apos;abc&apos;, &apos;exec&apos;)</span><br><span class="line">&gt;&gt;&gt; c</span><br><span class="line">&lt;code object &lt;module&gt; at 0x101208f60, file &quot;abc&quot;, line 1&gt;</span><br><span class="line">&gt;&gt;&gt; exec(c)</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">&gt;&gt;&gt; str=&quot;3*4+5&quot;</span><br><span class="line">&gt;&gt;&gt; a = compile(str, &apos;evalfile&apos;, &apos;eval&apos;)</span><br><span class="line">&gt;&gt;&gt; a</span><br><span class="line">&lt;code object &lt;module&gt; at 0x1012f8300, file &quot;evalfile&quot;, line 1&gt;</span><br><span class="line">&gt;&gt;&gt; eval(a)</span><br><span class="line">17</span><br></pre></td></tr></table></figure>
+<h2 id="setattr-object-name-value"><a href="#setattr-object-name-value" class="headerlink" title="setattr(object, name, value)"></a>setattr(object, name, value)</h2><ul>
+<li>object: 对象/类</li>
+<li>name: 字符串，对象属性</li>
+<li>value: 属性值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A(object):</span><br><span class="line">...     name = &quot;tom&quot;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; setattr(a, &apos;age&apos;, 13)</span><br><span class="line">&gt;&gt;&gt; getattr(a, &apos;age&apos;)</span><br><span class="line">13</span><br><span class="line">&gt;&gt;&gt; a.age</span><br><span class="line">13</span><br><span class="line">&gt;&gt;&gt; a.name</span><br><span class="line">&apos;tom&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="getattr-object-name-default"><a href="#getattr-object-name-default" class="headerlink" title="getattr(object, name [, default ])"></a>getattr(object, name [, default ])</h2><ul>
+<li>object: 对象/类</li>
+<li>name: 字符串， 对象属性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A(object):</span><br><span class="line">...     name = &quot;tom&quot;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; getattr(a, &quot;name&quot;)</span><br><span class="line">&apos;tom&apos;</span><br><span class="line">&gt;&gt;&gt; getattr(a, &quot;age&quot;, &quot;20&quot;)             #如果没有此属性，则返回默认值，否则，报AttributeError错！</span><br><span class="line">&apos;20&apos;</span><br><span class="line">&gt;&gt;&gt; getattr(a, &quot;age&quot;)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: &apos;A&apos; object has no attribute &apos;age&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="hasattr-object-name"><a href="#hasattr-object-name" class="headerlink" title="hasattr(object, name)"></a>hasattr(object, name)</h2><ul>
+<li>object: 对象/类</li>
+<li>name: 字符串， 对象属性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A(object):</span><br><span class="line">...     name = &quot;tom&quot;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; hasattr(a,&quot;age&quot;)</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; hasattr(a, &quot;name&quot;)</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<h2 id="delattr-object-name"><a href="#delattr-object-name" class="headerlink" title="delattr(object, name)"></a>delattr(object, name)</h2><ul>
+<li>object: 对象/类</li>
+<li>name: 字符串， 对象属性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A(object):</span><br><span class="line">...     name=&quot;tom&quot;</span><br><span class="line">...     age=20</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; delattr(a, &quot;age&quot;)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: age</span><br><span class="line">&gt;&gt;&gt; delattr(a, &quot;name&quot;)              #name 是类的属性， 但是传入的参数是对象a，所以出错，delattr(A,&quot;name&quot;)才行。</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: name</span><br><span class="line">&gt;&gt;&gt; setattr(a, &quot;sex&quot;, 1)</span><br><span class="line">&gt;&gt;&gt; a.sex</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; delattr(a, &quot;sex&quot;)               #传入的参数是对象a，所以删除的是对象的属性</span><br><span class="line">&gt;&gt;&gt; a.sex</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: &apos;A&apos; object has no attribute &apos;sex&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="dir-object"><a href="#dir-object" class="headerlink" title="dir([object])"></a>dir([object])</h2><ul>
+<li>object: 对象</li>
+<li><code>如果没有参数时，返回locals的属性</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dir()</span><br><span class="line">[&apos;__annotations__&apos;, &apos;__builtins__&apos;, &apos;__doc__&apos;, &apos;__loader__&apos;, &apos;__name__&apos;, &apos;__package__&apos;, &apos;__spec__&apos;, &apos;struct&apos;]</span><br><span class="line">&gt;&gt;&gt; list(locals().keys())</span><br><span class="line">[&apos;__name__&apos;, &apos;__doc__&apos;, &apos;__package__&apos;, &apos;__loader__&apos;, &apos;__spec__&apos;, &apos;__annotations__&apos;, &apos;__builtins__&apos;, &apos;struct&apos;]</span><br><span class="line">&gt;&gt;&gt; dir(struct)</span><br><span class="line">[&apos;Struct&apos;, &apos;__all__&apos;, &apos;__builtins__&apos;, &apos;__cached__&apos;, &apos;__doc__&apos;, &apos;__file__&apos;, &apos;__loader__&apos;, &apos;__name__&apos;, &apos;__package__&apos;, &apos;__spec__&apos;, &apos;_clearcache&apos;, &apos;calcsize&apos;, &apos;error&apos;, &apos;iter_unpack&apos;, &apos;pack&apos;, &apos;pack_into&apos;, &apos;unpack&apos;, &apos;unpack_from&apos;]</span><br><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     def __dir__(self):</span><br><span class="line">...             return [&apos;a&apos;,&apos;b&apos;, &apos;c&apos;,&apos;d&apos;]</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; dir(a)</span><br><span class="line">[&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;]</span><br></pre></td></tr></table></figure>
+<h2 id="vars-object"><a href="#vars-object" class="headerlink" title="vars([object])"></a>vars([object])</h2><ul>
+<li>不带参数，和locals()一样，</li>
+<li>返回对象的<strong>dict</strong>属性</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;print(vars())</span><br><span class="line">&#123;&apos;__builtins__&apos;: &lt;module &apos;__builtin__&apos; (built-in)&gt;, &apos;__name__&apos;: &apos;__main__&apos;, &apos;__doc__&apos;: None, &apos;__package__&apos;: None&#125;</span><br><span class="line">&gt;&gt;&gt; class Runoob:</span><br><span class="line">...     a = 1</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; print(vars(Runoob))</span><br><span class="line">&#123;&apos;a&apos;: 1, &apos;__module__&apos;: &apos;__main__&apos;, &apos;__doc__&apos;: None&#125;</span><br><span class="line">&gt;&gt;&gt; runoob = Runoob()</span><br><span class="line">&gt;&gt;&gt; print(vars(runoob))</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="divmod-a-b"><a href="#divmod-a-b" class="headerlink" title="divmod(a, b)"></a>divmod(a, b)</h2><ul>
+<li>a, b: 数字</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; divmod(7,2)</span><br><span class="line">(3, 1)</span><br><span class="line">&gt;&gt;&gt; divmod(1.1, 3.3)</span><br><span class="line">(0.0, 1.1)</span><br></pre></td></tr></table></figure>
+<h2 id="enumerate-iterable-start-0"><a href="#enumerate-iterable-start-0" class="headerlink" title="enumerate(iterable, start=0)"></a>enumerate(iterable, start=0)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;]</span><br><span class="line">&gt;&gt;&gt; enumerate(a)</span><br><span class="line">&lt;enumerate object at 0x10f802828&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; list(enumerate(a))</span><br><span class="line">[(0, &apos;a&apos;), (1, &apos;b&apos;), (2, &apos;c&apos;), (3, &apos;d&apos;)]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; list(enumerate(a, 1))</span><br><span class="line">[(1, &apos;a&apos;), (2, &apos;b&apos;), (3, &apos;c&apos;), (4, &apos;d&apos;)]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; list(enumerate(a, 2))</span><br><span class="line">[(2, &apos;a&apos;), (3, &apos;b&apos;), (4, &apos;c&apos;), (5, &apos;d&apos;)]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; def b(ss, start=0):           #实现同样功能的函数</span><br><span class="line">...     n = start</span><br><span class="line">...     for i in ss:</span><br><span class="line">...             yield n, i</span><br><span class="line">...             n += 1</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; b(a)</span><br><span class="line">&lt;generator object b at 0x10f7b2c78&gt;</span><br><span class="line">&gt;&gt;&gt; list(b(a))</span><br><span class="line">[(0, &apos;a&apos;), (1, &apos;b&apos;), (2, &apos;c&apos;), (3, &apos;d&apos;)]</span><br></pre></td></tr></table></figure>
+<h2 id="hash-object"><a href="#hash-object" class="headerlink" title="hash(object)"></a>hash(object)</h2><ul>
+<li><code>数字相等， 具有同样的hash， 即使类型不同</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; hash(1)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; hash(1.0)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; hash(&apos;1&apos;)</span><br><span class="line">9147542561979087211</span><br><span class="line">&gt;&gt;&gt; hash(2)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; hash(2.0)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; hash(2.2)</span><br><span class="line">461168601842739202</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     def __hash__(self):</span><br><span class="line">...             return &apos;abc&apos;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; hash(a)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: __hash__ method should return an integer</span><br><span class="line">&gt;&gt;&gt; class A:                                            #__hash__()必须返回整数， 否则调用时候报错！</span><br><span class="line">...     def __hash__(self):</span><br><span class="line">...             return 1.0</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; hash(a)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: __hash__ method should return an integer</span><br><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     def __hash__(self):</span><br><span class="line">...             return 1</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; hash(a)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; hash(A())</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<h2 id="help-object"><a href="#help-object" class="headerlink" title="help([object])"></a>help([object])</h2><ul>
+<li>positional-only parameters   位置类型的参数，</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; help(divmod)</span><br><span class="line">divmod(x, y, /)         # 这个  /  说明参数是位置类型的参数</span><br><span class="line">    Return the tuple (x//y, x%y).  Invariant: div*y + mod == x.</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; divmod(7,2)</span><br><span class="line">(3, 1)</span><br><span class="line">&gt;&gt;&gt; divmod(x=7, y=2)                    # 位置类型的参数， 不接受关键字的参数， 报错</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: divmod() takes no keyword arguments</span><br></pre></td></tr></table></figure>
+<h2 id="id-obbject"><a href="#id-obbject" class="headerlink" title="id(obbject)"></a>id(obbject)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     name=&apos;tom&apos;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; id(A)</span><br><span class="line">140610330898408</span><br><span class="line">&gt;&gt;&gt; a=A()</span><br><span class="line">&gt;&gt;&gt; id(a)</span><br><span class="line">4557316448</span><br><span class="line">&gt;&gt;&gt; b=A()</span><br><span class="line">&gt;&gt;&gt; id(b)</span><br><span class="line">4555516560</span><br></pre></td></tr></table></figure>
+<h2 id="input-prompt"><a href="#input-prompt" class="headerlink" title="input([prompt])"></a>input([prompt])</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; input()</span><br><span class="line">jfklaj</span><br><span class="line">&apos;jfklaj&apos;</span><br><span class="line">&gt;&gt;&gt; input(&apos;=====&gt;&apos;)</span><br><span class="line">=====&gt;flajfkljalk</span><br><span class="line">&apos;flajfkljalk&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="isinstance-object-classinfo"><a href="#isinstance-object-classinfo" class="headerlink" title="isinstance(object, classinfo)"></a>isinstance(object, classinfo)</h2><ul>
+<li>判断一个对象是否是一个已知类型</li>
+<li>isinstance<code>考虑</code>继承关系， type<code>不考虑</code>继承关系</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = 10</span><br><span class="line">&gt;&gt;&gt; isinstance(a, int)</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; isinstance(a, str)</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; isinstance(a,(str,int,list))        #是元组中的一个返回True</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; class B(A):</span><br><span class="line">...     pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; type(A())==A</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; isinstance(A(), A)</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; isinstance(B(), A)      #考虑继承关系</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; type(B()) == A          #不考虑继承关系</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; type(B()) == B</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<h2 id="issubclass-class-classinfo"><a href="#issubclass-class-classinfo" class="headerlink" title="issubclass(class, classinfo)"></a>issubclass(class, classinfo)</h2><ul>
+<li>判断一个类是否是classinfo的子类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; class B(A):</span><br><span class="line">...     pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; issubclass(B,A)</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; class C:</span><br><span class="line">...     pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; issubclass(B,C)</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; issubclass(B,(A,C))</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<h2 id="iter-object-sentinel"><a href="#iter-object-sentinel" class="headerlink" title="iter(object [, sentinel])"></a>iter(object [, sentinel])</h2><ul>
+<li>如果不提供第二个参数， obbject必须实现<strong>iter</strong>()或者<strong>getitem</strong>()方法</li>
+<li>如果提供了第二个参数，object必须是个可调用的对象(如函数)，iter则创建一个迭代器，每次调用迭代器的<strong>next</strong>()方法时都会调用object</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from functools import partial</span><br><span class="line">with open(&apos;mydata.db&apos;, &apos;rb&apos;) as f:</span><br><span class="line">    for block in iter(partial(f.read, 64), b&apos;&apos;):     #当迭代到 b&apos;&apos;时就停止迭代</span><br><span class="line">        process_block(block)</span><br></pre></td></tr></table></figure>
+<h2 id="next-iterator-default"><a href="#next-iterator-default" class="headerlink" title="next(iterator[, default])"></a>next(iterator[, default])</h2><ul>
+<li>default, <code>没有下一个元素时返回的默认值</code>， 否则会抛StopIteration异常</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;it = iter([1,2,3,4])</span><br><span class="line">&gt;&gt;&gt; next(it)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; next(it)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; next(it)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; next(it)</span><br><span class="line">4</span><br><span class="line">&gt;&gt;&gt; next(it)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">StopIteration</span><br><span class="line">&gt;&gt;&gt; next(it,&apos;&apos;)</span><br><span class="line">&apos;&apos;</span><br><span class="line">&gt;&gt;&gt; next(it,0)</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<h2 id="len-s"><a href="#len-s" class="headerlink" title="len(s)"></a>len(s)</h2><ul>
+<li>返回对象的长度</li>
+<li>参数可以是sequence（string, bytes, tuple, list, or range）;</li>
+<li>也可以是collection （dictionary, set, or frozen set）</li>
+</ul>
+<h2 id="map-function-iterable-…"><a href="#map-function-iterable-…" class="headerlink" title="map(function, iterable, …)"></a>map(function, iterable, …)</h2><ul>
+<li>返回迭代器</li>
+<li>iterable多个时，取最小原则</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for i in map(lambda x: x**2, [1,2,3,4]):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">1</span><br><span class="line">4</span><br><span class="line">9</span><br><span class="line">16</span><br><span class="line">&gt;&gt;&gt; for i in map(lambda x,y,z: x+y+z, [1,2,3,4],[4,5,6,7],[4,3,2,1]):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">&gt;&gt;&gt; for i in map(lambda x,y,z: x+y+z, [1,2,3,4],[4,5,6,7],[4,3,2,1,5]):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">&gt;&gt;&gt; for i in map(lambda x,y,z: x+y+z, [1,2,3,4],[4,5,6,7,8],[4,3,2,1]):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">&gt;&gt;&gt; for i in map(lambda x,y,z: x+y+z, [1,2,3,4,5],[4,5,6,7],[4,3,2,1]):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<h2 id="min-iterable-key-default"><a href="#min-iterable-key-default" class="headerlink" title="min(iterable, *[,key, default]"></a>min(iterable, *[,key, default]</h2><h2 id="min-arg1-arg2-args-key"><a href="#min-arg1-arg2-args-key" class="headerlink" title="min(arg1, arg2, *args[, key])"></a>min(arg1, arg2, *args[, key])</h2><h2 id="max-iterable-key-default"><a href="#max-iterable-key-default" class="headerlink" title="max(iterable, *[,key,default])"></a>max(iterable, *[,key,default])</h2><h2 id="max-arg1-arg2-args-key"><a href="#max-arg1-arg2-args-key" class="headerlink" title="max(arg1, arg2, *args[, key])"></a>max(arg1, arg2, *args[, key])</h2><ul>
+<li>key, <code>执行完函数再比较</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; max([1,2,3,4])</span><br><span class="line">4</span><br><span class="line">&gt;&gt;&gt; max([], default=10)</span><br><span class="line">10</span><br><span class="line">&gt;&gt;&gt; a = &#123;&apos;name&apos;:&apos;tom&apos;, &apos;age&apos;:10&#125;</span><br><span class="line">&gt;&gt;&gt; b = &#123;&apos;name&apos;:&apos;tom1&apos;, &apos;age&apos;:20&#125;</span><br><span class="line">&gt;&gt;&gt; c = &#123;&apos;name&apos;:&apos;tom2&apos;, &apos;age&apos;:30&#125;</span><br><span class="line">&gt;&gt;&gt; ml = [a,b,c]</span><br><span class="line">&gt;&gt;&gt; max(ml, key=lambda x: x[&apos;age&apos;], default=&#123;&apos;name&apos;:&apos;jack&apos;, &apos;age&apos;:10000&#125;)</span><br><span class="line">&#123;&apos;name&apos;: &apos;tom2&apos;, &apos;age&apos;: 30&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="open-file-mode-’r’-buffering-1-encoding-None-errors-None-newline-None-closefd-True-opener-None"><a href="#open-file-mode-’r’-buffering-1-encoding-None-errors-None-newline-None-closefd-True-opener-None" class="headerlink" title="open(file, mode=’r’, buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)"></a>open(file, mode=’r’, buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)</h2><ul>
+<li>mode: ‘r’,’w’,’x’,’a’,’b’,’t’,’+’</li>
+<li>error: ‘strict’, ‘ignore’, ‘replace’, ‘surrogateescape’,’xmlcharrefreplace’, ‘backslashreplace’, ‘namereplace’</li>
+<li>newline: None, ‘’, ‘\r’, ‘\n’, ‘\r\n’</li>
+<li>bbuffering:</li>
+</ul>
+<h2 id="pow-base-exp-mod"><a href="#pow-base-exp-mod" class="headerlink" title="pow(base, exp[, mod])"></a>pow(base, exp[, mod])</h2><ul>
+<li>base的exp次方，取模mod</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; pow(100,2)</span><br><span class="line">10000</span><br><span class="line">&gt;&gt;&gt; pow(100,-2)</span><br><span class="line">0.0001</span><br><span class="line">&gt;&gt;&gt; pow(2, -2)</span><br><span class="line">0.25</span><br><span class="line">&gt;&gt;&gt; pow(100, 2, 10)</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<h2 id="print-objects-sep-’-‘-end-’-n’-file-sys-stdout-flush-False"><a href="#print-objects-sep-’-‘-end-’-n’-file-sys-stdout-flush-False" class="headerlink" title="print(*objects, sep=’ ‘, end=’\n’, file=sys.stdout, flush=False)"></a>print(*objects, sep=’ ‘, end=’\n’, file=sys.stdout, flush=False)</h2><ul>
+<li>print不能对binary对象操作, 需用file.write()</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; print(&quot;hello,world&quot;, file=open(&quot;f123.txt&quot;,&apos;a&apos;))</span><br></pre></td></tr></table></figure>
+<h2 id="reversed-seq"><a href="#reversed-seq" class="headerlink" title="reversed(seq)"></a>reversed(seq)</h2><ul>
+<li>seq必须实现<strong>reversed</strong>()方法</li>
+<li>或者<strong>len</strong>()和<strong>getitem</strong>()方法</li>
+</ul>
+<h2 id="sorted-iterable-key-None-reverse-False"><a href="#sorted-iterable-key-None-reverse-False" class="headerlink" title="sorted(iterable, *, key=None, reverse=False)"></a>sorted(iterable, *, key=None, reverse=False)</h2><ul>
+<li>执行完key的结果再排序<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">student_objects = [</span><br><span class="line">    Student(&apos;john&apos;, &apos;A&apos;, 15),</span><br><span class="line">    Student(&apos;jane&apos;, &apos;B&apos;, 12),</span><br><span class="line">    Student(&apos;dave&apos;, &apos;B&apos;, 10),</span><br><span class="line">]</span><br><span class="line">sorted(student_objects, key=lambda student: student.age)   # sort by age</span><br><span class="line">[(&apos;dave&apos;, &apos;B&apos;, 10), (&apos;jane&apos;, &apos;B&apos;, 12), (&apos;john&apos;, &apos;A&apos;, 15)]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="round-number-ndigits"><a href="#round-number-ndigits" class="headerlink" title="round(number[, ndigits])"></a>round(number[, ndigits])</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; round(0.5)</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; round(0.5,1)</span><br><span class="line">0.5</span><br><span class="line">&gt;&gt;&gt; round(0.5,2)</span><br><span class="line">0.5</span><br><span class="line">&gt;&gt;&gt; round(0.5,3)</span><br><span class="line">0.5</span><br><span class="line">&gt;&gt;&gt; round(1.5)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; round(1.5,1)</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; round(1.5,2)</span><br><span class="line">1.5</span><br><span class="line">&gt;&gt;&gt; round(2.5,2)</span><br><span class="line">2.5</span><br><span class="line">&gt;&gt;&gt; round(2.5)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; round(3.5)</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+<h2 id="sum-iterable-start-0"><a href="#sum-iterable-start-0" class="headerlink" title="sum(iterable, /, start=0)"></a>sum(iterable, /, start=0)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; sum([],100)</span><br><span class="line">100</span><br><span class="line">&gt;&gt;&gt; sum([1,2,3,4,5])</span><br><span class="line">15</span><br><span class="line">&gt;&gt;&gt; sum([1,2,3,4,5], 1000)</span><br><span class="line">1015</span><br></pre></td></tr></table></figure>
+<h2 id="super-type-object-or-type"><a href="#super-type-object-or-type" class="headerlink" title="super([type[, object-or-type]])"></a>super([type[, object-or-type]])</h2><ul>
+<li>如何实现多继承协同任务</li>
+<li>组合不友好的类</li>
+<li>mro路径中必须保证方法的存在</li>
+<li>**kwargs 实现参数匹配<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; class B:pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; class C(A,B):pass</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; print(C.mro())</span><br><span class="line">[&lt;class &apos;__main__.C&apos;&gt;, &lt;class &apos;__main__.A&apos;&gt;, &lt;class &apos;__main__.B&apos;&gt;, &lt;class &apos;object&apos;&gt;]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     def test(self):</span><br><span class="line">...             print(&apos;this is A&apos;)</span><br><span class="line">...             super().test()</span><br><span class="line">...             print(self)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; class B:</span><br><span class="line">...     def test(self):</span><br><span class="line">...             print(&apos;this is B&apos;)</span><br><span class="line">...             print(self)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; class C(A,B):</span><br><span class="line">...     def zz(self):</span><br><span class="line">...             print(&apos;this is c&apos;)</span><br><span class="line">...             super().test()</span><br><span class="line">...             print(self)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; C().zz()</span><br><span class="line">this is c</span><br><span class="line">this is A</span><br><span class="line">this is B</span><br><span class="line">&lt;__main__.C object at 0x10634f358&gt;     #self为同一个地址，即C()对象的地址</span><br><span class="line">&lt;__main__.C object at 0x10634f358&gt;      #super()是super(type, obj)的简写，obj在传递过程中是不变的。type是当前的类，是在不断变化的</span><br><span class="line">&lt;__main__.C object at 0x10634f358&gt;</span><br><span class="line">&gt;&gt;&gt; print(C.mro())</span><br><span class="line">[&lt;class &apos;__main__.C&apos;&gt;, &lt;class &apos;__main__.A&apos;&gt;, &lt;class &apos;__main__.B&apos;&gt;, &lt;class &apos;object&apos;&gt;]</span><br></pre></td></tr></table></figure>
+<p><code>稍微改下class B</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class B:</span><br><span class="line">...     def test(self):</span><br><span class="line">...             print(&apos;this is B&apos;)</span><br><span class="line">...             super().test()     #B的super是object，object没有test方法，所以报错</span><br><span class="line">...             print(self)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; print(C.mro())</span><br><span class="line">[&lt;class &apos;__main__.C&apos;&gt;, &lt;class &apos;__main__.A&apos;&gt;, &lt;class &apos;__main__.B&apos;&gt;, &lt;class &apos;object&apos;&gt;]</span><br><span class="line">&gt;&gt;&gt; C().zz()</span><br><span class="line">this is c</span><br><span class="line">this is A</span><br><span class="line">this is B</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 4, in zz</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 4, in test</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 4, in test</span><br><span class="line">AttributeError: &apos;super&apos; object has no attribute &apos;test&apos;</span><br></pre></td></tr></table></figure>
+<p><code>参数匹配</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     def __init__(self, a, **kwargs):</span><br><span class="line">...             self.age = a</span><br><span class="line">...             super().__init__(**kwargs)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; class B(A):</span><br><span class="line">...     def __init__(self, b, **kwargs):</span><br><span class="line">...             self.name = b</span><br><span class="line">...             super().__init__(**kwargs)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; b = B(&apos;tom&apos;,&apos;28&apos;)       #加上self，一共三个参数，第三个参数应该是关键字参数</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: __init__() takes 2 positional arguments but 3 were given</span><br><span class="line">&gt;&gt;&gt; b = B(b=&apos;tom&apos;,a=&apos;28&apos;)</span><br><span class="line">&gt;&gt;&gt; b.b</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: &apos;B&apos; object has no attribute &apos;b&apos;</span><br><span class="line">&gt;&gt;&gt; b.name</span><br><span class="line">&apos;tom&apos;</span><br><span class="line">&gt;&gt;&gt; b.age</span><br><span class="line">&apos;28&apos;</span><br><span class="line">&gt;&gt;&gt; b=B(&quot;tom&quot;)          #因为B的父类是A，A的参数a，在B中是关键字参数，如果不提供会导致A没有参数a</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 4, in __init__</span><br><span class="line">TypeError: __init__() missing 1 required positional argument: &apos;a&apos;</span><br><span class="line">&gt;&gt;&gt; b1=B(&quot;tom&quot;, a=28)</span><br><span class="line">&gt;&gt;&gt; b1.name</span><br><span class="line">&apos;tom&apos;</span><br><span class="line">&gt;&gt;&gt; b1.age</span><br><span class="line">28</span><br></pre></td></tr></table></figure></p>
+<p><code>python参数顺序: 位置参数、默认参数、变长参数、关键字参数、命名关键字参数</code></p>
+<h2 id="zip-iterables"><a href="#zip-iterables" class="headerlink" title="zip(*iterables)"></a>zip(*iterables)</h2><ul>
+<li>iterables,长度不一样时，取最短的</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x=[1,2,3]</span><br><span class="line">&gt;&gt;&gt; y=[4,5,6]</span><br><span class="line">&gt;&gt;&gt; zip(x,y)</span><br><span class="line">&lt;zip object at 0x10ad275c8&gt;</span><br><span class="line">&gt;&gt;&gt; list(zip(x,y))</span><br><span class="line">[(1, 4), (2, 5), (3, 6)]</span><br><span class="line">&gt;&gt;&gt; x2, y2 = zip(*zip(x,y))     #unzip 一个zip的对象</span><br><span class="line">&gt;&gt;&gt; x2</span><br><span class="line">(1, 2, 3)</span><br><span class="line">&gt;&gt;&gt; y2</span><br><span class="line">(4, 5, 6)</span><br></pre></td></tr></table></figure>
+<h2 id="import-name-globals-None-locals-None-fromlist-level-0"><a href="#import-name-globals-None-locals-None-fromlist-level-0" class="headerlink" title="import(name, globals=None, locals=None, fromlist=(), level=0)"></a><strong>import</strong>(name, globals=None, locals=None, fromlist=(), level=0)</h2><ul>
+<li>主要用于反射和延迟加载模块, 插件会处理。</li>
+</ul>
+<h2 id="class-bool"><a href="#class-bool" class="headerlink" title="class bool"></a>class bool</h2><h2 id="class-bytearray"><a href="#class-bytearray" class="headerlink" title="class bytearray"></a>class bytearray</h2><h2 id="class-bytes"><a href="#class-bytes" class="headerlink" title="class bytes"></a>class bytes</h2><h2 id="class-complex"><a href="#class-complex" class="headerlink" title="class complex"></a>class complex</h2><h2 id="class-float"><a href="#class-float" class="headerlink" title="class float"></a>class float</h2><h2 id="class-frozenset"><a href="#class-frozenset" class="headerlink" title="class frozenset"></a>class frozenset</h2><h2 id="class-int"><a href="#class-int" class="headerlink" title="class int"></a>class int</h2><h2 id="class-list"><a href="#class-list" class="headerlink" title="class list"></a>class list</h2><h2 id="class-set"><a href="#class-set" class="headerlink" title="class set"></a>class set</h2><h2 id="class-str"><a href="#class-str" class="headerlink" title="class str"></a>class str</h2><h2 id="class-tuple"><a href="#class-tuple" class="headerlink" title="class tuple"></a>class tuple</h2><h2 id="class-type-object"><a href="#class-type-object" class="headerlink" title="class type(object)"></a>class type(object)</h2><h2 id="class-type-object-bases-dict"><a href="#class-type-object-bases-dict" class="headerlink" title="class type(object, bases, dict)"></a>class type(object, bases, dict)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class X:</span><br><span class="line">...     a = 1</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; x=X()</span><br><span class="line">&gt;&gt;&gt; type(x)</span><br><span class="line">&lt;class &apos;__main__.X&apos;&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; mt = type(&apos;X&apos;, (object,), dict(a=1))        #创建新类型</span><br><span class="line">&gt;&gt;&gt; mt</span><br><span class="line">&lt;class &apos;__main__.X&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; mt = type(&apos;X&apos;, (object,), dict(b=1))</span><br><span class="line">&gt;&gt;&gt; mt</span><br><span class="line">&lt;class &apos;__main__.X&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; mt.__dict__</span><br><span class="line">mappingproxy(&#123;&apos;b&apos;: 1, &apos;__module__&apos;: &apos;__main__&apos;, &apos;__dict__&apos;: &lt;attribute &apos;__dict__&apos; of &apos;X&apos; objects&gt;, &apos;__weakref__&apos;: &lt;attribute &apos;__weakref__&apos; of &apos;X&apos; objects&gt;, &apos;__doc__&apos;: None&#125;)</span><br><span class="line">&gt;&gt;&gt; mt.__base__</span><br><span class="line">&lt;class &apos;object&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; type(x).__dict__</span><br><span class="line">mappingproxy(&#123;&apos;__module__&apos;: &apos;__main__&apos;, &apos;a&apos;: 1, &apos;__dict__&apos;: &lt;attribute &apos;__dict__&apos; of &apos;X&apos; objects&gt;, &apos;__weakref__&apos;: &lt;attribute &apos;__weakref__&apos; of &apos;X&apos; objects&gt;, &apos;__doc__&apos;: None&#125;)</span><br><span class="line">&gt;&gt;&gt; type(x).__base__</span><br><span class="line">&lt;class &apos;object&apos;&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="class-object"><a href="#class-object" class="headerlink" title="class object"></a>class object</h2><p><code>不接受任何参数</code></p>
+<p><code>object实例没有__dict__属性，不能对实例添加属性</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a=object()</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; a.__dict__</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: &apos;object&apos; object has no attribute &apos;__dict__&apos;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; setattr(a,&apos;name&apos;,&apos;tom&apos;)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: &apos;object&apos; object has no attribute &apos;name&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="class-memoryview-obj"><a href="#class-memoryview-obj" class="headerlink" title="class memoryview(obj)"></a>class memoryview(obj)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; v = memoryview(bytearray(&quot;abcdef&quot;, &apos;utf-8&apos;))</span><br><span class="line">&gt;&gt;&gt; v[0]</span><br><span class="line">97</span><br><span class="line">&gt;&gt;&gt; v[1]</span><br><span class="line">98</span><br><span class="line">&gt;&gt;&gt; v[1:4]</span><br><span class="line">&lt;memory at 0x106261888&gt;</span><br><span class="line">&gt;&gt;&gt; v[1:4].tobytes()</span><br><span class="line">b&apos;bcd&apos;</span><br><span class="line">&gt;&gt;&gt; v[1:4].tolist()</span><br><span class="line">[98, 99, 100]</span><br></pre></td></tr></table></figure>
+<h2 id="class-property"><a href="#class-property" class="headerlink" title="class property"></a>class property</h2><h2 id="class-range-stop"><a href="#class-range-stop" class="headerlink" title="class range(stop)"></a>class range(stop)</h2><h2 id="class-range-start-stop-step"><a href="#class-range-start-stop-step" class="headerlink" title="class range(start, stop[, step ])"></a>class range(start, stop[, step ])</h2><h2 id="class-slice-stop"><a href="#class-slice-stop" class="headerlink" title="class slice(stop)"></a>class slice(stop)</h2><h2 id="class-slice-start-stop-step"><a href="#class-slice-start-stop-step" class="headerlink" title="class slice(start, stop[, step])"></a>class slice(start, stop[, step])</h2><p><code>返回一个切片对象</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; slice(5)</span><br><span class="line">slice(None, 5, None)</span><br><span class="line">&gt;&gt;&gt; arr=range(10)</span><br><span class="line">&gt;&gt;&gt; arr</span><br><span class="line">range(0, 10)</span><br><span class="line">&gt;&gt;&gt; arr=list(range(10))</span><br><span class="line">&gt;&gt;&gt; arr</span><br><span class="line">[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span><br><span class="line">&gt;&gt;&gt; arr[slice(5)]</span><br><span class="line">[0, 1, 2, 3, 4]</span><br><span class="line">&gt;&gt;&gt; arr[slice(2,5)]</span><br><span class="line">[2, 3, 4]</span><br><span class="line">&gt;&gt;&gt; arr=range(10)</span><br><span class="line">&gt;&gt;&gt; arr[slice(2,5)]</span><br><span class="line">range(2, 5)</span><br><span class="line">&gt;&gt;&gt; list(arr[slice(2,5)])</span><br><span class="line">[2, 3, 4]</span><br></pre></td></tr></table></figure></p>
+<h2 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     @classmethod</span><br><span class="line">...     def test(cls):</span><br><span class="line">...             print(&apos;abc&apos;)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; A.test()</span><br><span class="line">abc</span><br><span class="line">&gt;&gt;&gt; A().test()</span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+<h2 id="taticmethod"><a href="#taticmethod" class="headerlink" title="@taticmethod"></a>@taticmethod</h2><p><code>静态方法无法访问：类或实例的内部（属性和方法）</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; class A:</span><br><span class="line">...     @staticmethod</span><br><span class="line">...     def test():</span><br><span class="line">...             print(&apos;abc&apos;)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; A.test</span><br><span class="line">&lt;function A.test at 0x106337598&gt;</span><br><span class="line">&gt;&gt;&gt; A.test()</span><br><span class="line">abc</span><br><span class="line">&gt;&gt;&gt; A().test()</span><br><span class="line">abc</span><br></pre></td></tr></table></figure></section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/linux/kernel/内核IPC之消息队列.html">
+        <span class="nav-arrow">← </span>
+        
+          内核IPC之消息队列
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/python/python内建函数.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "python内建函数",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/python/python内建函数.html';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by ppd
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>
