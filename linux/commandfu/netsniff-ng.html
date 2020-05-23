@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="PPD,专业研究大数据时代的数据安全，红蓝对抗, 偶尔走神渗透测试走一波。">
+  <meta name="keyword" content="">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      netsniff-ng | PPD安全研究
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>PPD安全研究</span>
+    </a>
+    <ul class="right-list" id="nav">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/bigdata/" class="item-link">BigData</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/linux/" class="item-link">Linux</a>
+		
+			<ul>
+				
+					<li>
+						<a href="/linux/kernel/" class="menu-link">kernel</a>
+					</li>
+				
+					<li>
+						<a href="/linux/commandfu/" class="menu-link">commandfu</a>
+					</li>
+				
+			</ul>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/python/" class="item-link">Python</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/cheatsheet/" class="item-link">CheatSheet</a>
+		
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+		
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/bigdata/" class="menu-link">BigData</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/linux/" class="menu-link">Linux</a>
+		
+			<ul>
+				
+					<li>
+						<a href="/linux/kernel/" >kernel</a>
+					</li>
+				
+					<li>
+						<a href="/linux/commandfu/" >commandfu</a>
+					</li>
+				
+			</ul>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/python/" class="menu-link">Python</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/cheatsheet/" class="menu-link">CheatSheet</a>
+		
+
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+		
+
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>netsniff-ng</h2>
+  <p class="post-date">2020-01-13</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="01-介绍"><a href="#01-介绍" class="headerlink" title="01. 介绍"></a><strong>01. 介绍</strong></h1><ul>
+<li>官网：<a href="http://www.netsniff-ng.org" target="_blank" rel="noopener">http://www.netsniff-ng.org</a></li>
+<li>生辰：2013年</li>
+<li>使命：高性能处理网络流量</li>
+<li>形态：套件(<code>trafgen, mausezahn, bpfc, ifpps, flowtop, curvetun, astraceroute, netsniff-ng</code>)</li>
+</ul>
+<h1 id="02-技能"><a href="#02-技能" class="headerlink" title="02. 技能"></a><strong>02. 技能</strong></h1><ul>
+<li>零拷贝(<code>不需要从内核态拷贝到用户态</code>)</li>
+<li>发散聚合IO(<code>支持Scatter/gatherIO</code>)</li>
+<li>mmapIO(<code>replay pcap时用到</code>)</li>
+<li>slow read/write io(<code>遇到老硬盘落盘时可能会用到</code>)</li>
+<li>绑定cpu</li>
+<li>指定网卡ring-buffer(<code>drop数多时会用到</code>)</li>
+<li>进程优先级开关</li>
+<li>支持geoip库</li>
+<li>流量负载(<code>fanout-group, fanout-type, fanout-opts</code>)</li>
+<li>更底层的网络过滤(<code>bpfc</code>)</li>
+</ul>
+<h4 id="查看网卡ring-buffer"><a href="#查看网卡ring-buffer" class="headerlink" title="查看网卡ring-buffer"></a>查看网卡ring-buffer</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# ethtool -g eth0</span><br><span class="line">Ring parameters for eth0:</span><br><span class="line">Pre-set maximums:</span><br><span class="line">RX:		256</span><br><span class="line">RX Mini:	0</span><br><span class="line">RX Jumbo:	0</span><br><span class="line">TX:		256</span><br><span class="line">Current hardware settings:</span><br><span class="line">RX:		256</span><br><span class="line">RX Mini:	0</span><br><span class="line">RX Jumbo:	0</span><br><span class="line">TX:		256</span><br></pre></td></tr></table></figure>
+<h4 id="bpf格式的过滤"><a href="#bpf格式的过滤" class="headerlink" title="bpf格式的过滤"></a>bpf格式的过滤</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# netsniff-ng -i eth0 -f &apos;port 8000 and 9999&apos; -B -n 1</span><br><span class="line"> L0: ldh [12]</span><br><span class="line"> L1: jeq #0x86dd, L2, L13</span><br><span class="line"> L2: ldb [20]</span><br><span class="line"> L3: jeq #0x84, L6, L4</span><br><span class="line"> L4: jeq #0x6, L6, L5</span><br><span class="line"> L5: jeq #0x11, L6, L29</span><br><span class="line"> L6: ldh [54]</span><br><span class="line"> L7: jeq #0x1f40, L8, L10</span><br><span class="line"> L8: ldh [56]</span><br><span class="line"> L9: jeq #0x270f, L28, L29</span><br><span class="line"> L10: jeq #0x270f, L11, L29</span><br><span class="line"> L11: ldh [56]</span><br><span class="line"> L12: jeq #0x1f40, L28, L29</span><br><span class="line"> L13: jeq #0x800, L14, L29</span><br><span class="line"> L14: ldb [23]</span><br><span class="line"> L15: jeq #0x84, L18, L16</span><br><span class="line"> L16: jeq #0x6, L18, L17</span><br><span class="line"> L17: jeq #0x11, L18, L29</span><br><span class="line"> L18: ldh [20]</span><br><span class="line"> L19: jset #0x1fff, L29, L20</span><br><span class="line"> L20: ldxb 4*([14]&amp;0xf)</span><br><span class="line"> L21: ldh [x + 14]</span><br><span class="line"> L22: jeq #0x1f40, L23, L25</span><br><span class="line"> L23: ldh [x + 16]</span><br><span class="line"> L24: jeq #0x270f, L28, L29</span><br><span class="line"> L25: jeq #0x270f, L26, L29</span><br><span class="line"> L26: ldh [x + 16]</span><br><span class="line"> L27: jeq #0x1f40, L28, L29</span><br><span class="line"> L28: ret #0xffffffff</span><br><span class="line"> L29: ret #0x0</span><br><span class="line">Running! Hang up with ^C!</span><br></pre></td></tr></table></figure>
+<h1 id="03-常用套路"><a href="#03-常用套路" class="headerlink" title="03. 常用套路"></a><strong>03. 常用套路</strong></h1><ul>
+<li>复制网卡流量到tap0，绑定cpu1，sgIO模式，并过滤22和1194, 只复制host流量；</li>
+<li><code>可结合openvpn桥接模式利用同一广播域抓取云上流量</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# netsniff-ng --in eth0 --out tap0 -k 1000 --b 1 -G -r --type host -f &apos;not port 22 and not port 1194&apos;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>dump过滤条件为bpf格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# netsniff-ng -i eth0 -f &apos;port 8000 and 9999&apos; -B -n 1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>只有输入是pcap文件时</code>，才能输出cfg的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# netsniff-ng --in 1.pcap --out dump.cfg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>以bob组，bob用户的身份来运行netsniff-ng，</p>
+</li>
+<li><p><code>可结合配额来限定资源的使用</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# netsniff-ng --in eth0 --out eth1 -u `id -u bob` -g `id -g bob`</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>分流, 把em1网卡的流量分到2个netsniff-ng，分别绑定到0，1cpu，</li>
+<li><code>可以指定不同的过滤规则</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# netsniff-ng --fanout-group 1 --fanout-type cpu --fanout-opts defrag --bind-cpu 0 --notouch-irq --silent --in em1 --out /var/cap/cpu0/ --interval 120sec</span><br><span class="line">root@kali:~# netsniff-ng --fanout-group 1 --fanout-type cpu --fanout-opts defrag --bind-cpu 1 --notouch-irq --silent --in em1 --out /var/cap/cpu1/ --interval 120sec</span><br></pre></td></tr></table></figure>
+<ul>
+<li>支持的几种pcap类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# netsniff-ng -D</span><br><span class="line">tcpdump-capable pcap:</span><br><span class="line">  magic: 0xa1b2c3d4 (swapped: 0xd4c3b2a1)</span><br><span class="line">  features:</span><br><span class="line">    timeval in us</span><br><span class="line">    packet length</span><br><span class="line">    packet cap-length</span><br><span class="line">tcpdump-capable pcap with ns resolution:</span><br><span class="line">  magic: 0xa1b23c4d (swapped: 0x4d3cb2a1)</span><br><span class="line">  features:</span><br><span class="line">    timeval in ns</span><br><span class="line">    packet length</span><br><span class="line">    packet cap-length</span><br><span class="line">Alexey Kuznetzov&apos;s pcap:</span><br><span class="line">  magic: 0xa1b2cd34 (swapped: 0x34cdb2a1)</span><br><span class="line">  features:</span><br><span class="line">    timeval in us</span><br><span class="line">    packet length</span><br><span class="line">    packet cap-length</span><br><span class="line">    packet ifindex</span><br><span class="line">    packet protocol</span><br><span class="line">    packet type</span><br><span class="line">netsniff-ng pcap:</span><br><span class="line">  magic: 0xa1e2cb12 (swapped: 0x12cbe2a1)</span><br><span class="line">  features:</span><br><span class="line">    timeval in ns</span><br><span class="line">    timestamp source</span><br><span class="line">    packet length</span><br><span class="line">    packet cap-length</span><br><span class="line">    packet ifindex</span><br><span class="line">    packet protocol</span><br><span class="line">    hardware type</span><br><span class="line">    packet type</span><br></pre></td></tr></table></figure>
+<ul>
+<li>动态刷新的网络统计</li>
+<li>-m 显示中位数， -P 显示百分比</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# ifpps -d eth0 -m -P</span><br></pre></td></tr></table></figure>
+<p><img src="netsniff-ng_images/2357330b.png" alt=""></p>
+<ul>
+<li>flowtop实时显示连接和流量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# flowtop -4  -n -s -G -b -t 5</span><br></pre></td></tr></table></figure>
+<p><img src="netsniff-ng_images/2e114f15.png" alt=""></p>
+<ul>
+<li>tcpdump生成bpf</li>
+</ul>
+<p><code>汇编格式</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# tcpdump -d &apos;port 22&apos;</span><br><span class="line">(000) ldh      [12]</span><br><span class="line">(001) jeq      #0x86dd          jt 2	jf 10</span><br><span class="line">(002) ldb      [20]</span><br><span class="line">(003) jeq      #0x84            jt 6	jf 4</span><br><span class="line">(004) jeq      #0x6             jt 6	jf 5</span><br><span class="line">(005) jeq      #0x11            jt 6	jf 23</span><br><span class="line">(006) ldh      [54]</span><br><span class="line">(007) jeq      #0x16            jt 22	jf 8</span><br><span class="line">(008) ldh      [56]</span><br><span class="line">(009) jeq      #0x16            jt 22	jf 23</span><br><span class="line">(010) jeq      #0x800           jt 11	jf 23</span><br><span class="line">(011) ldb      [23]</span><br><span class="line">(012) jeq      #0x84            jt 15	jf 13</span><br><span class="line">(013) jeq      #0x6             jt 15	jf 14</span><br><span class="line">(014) jeq      #0x11            jt 15	jf 23</span><br><span class="line">(015) ldh      [20]</span><br><span class="line">(016) jset     #0x1fff          jt 23	jf 17</span><br><span class="line">(017) ldxb     4*([14]&amp;0xf)</span><br><span class="line">(018) ldh      [x + 14]</span><br><span class="line">(019) jeq      #0x16            jt 22	jf 20</span><br><span class="line">(020) ldh      [x + 16]</span><br><span class="line">(021) jeq      #0x16            jt 22	jf 23</span><br><span class="line">(022) ret      #262144</span><br><span class="line">(023) ret      #0</span><br></pre></td></tr></table></figure>
+<p><code>BPFC格式</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# tcpdump -dd &apos;port 22&apos;</span><br><span class="line">&#123; 0x28, 0, 0, 0x0000000c &#125;,</span><br><span class="line">&#123; 0x15, 0, 8, 0x000086dd &#125;,</span><br><span class="line">&#123; 0x30, 0, 0, 0x00000014 &#125;,</span><br><span class="line">&#123; 0x15, 2, 0, 0x00000084 &#125;,</span><br><span class="line">&#123; 0x15, 1, 0, 0x00000006 &#125;,</span><br><span class="line">&#123; 0x15, 0, 17, 0x00000011 &#125;,</span><br><span class="line">&#123; 0x28, 0, 0, 0x00000036 &#125;,</span><br><span class="line">&#123; 0x15, 14, 0, 0x00000016 &#125;,</span><br><span class="line">&#123; 0x28, 0, 0, 0x00000038 &#125;,</span><br><span class="line">&#123; 0x15, 12, 13, 0x00000016 &#125;,</span><br><span class="line">&#123; 0x15, 0, 12, 0x00000800 &#125;,</span><br><span class="line">&#123; 0x30, 0, 0, 0x00000017 &#125;,</span><br><span class="line">&#123; 0x15, 2, 0, 0x00000084 &#125;,</span><br><span class="line">&#123; 0x15, 1, 0, 0x00000006 &#125;,</span><br><span class="line">&#123; 0x15, 0, 8, 0x00000011 &#125;,</span><br><span class="line">&#123; 0x28, 0, 0, 0x00000014 &#125;,</span><br><span class="line">&#123; 0x45, 6, 0, 0x00001fff &#125;,</span><br><span class="line">&#123; 0xb1, 0, 0, 0x0000000e &#125;,</span><br><span class="line">&#123; 0x48, 0, 0, 0x0000000e &#125;,</span><br><span class="line">&#123; 0x15, 2, 0, 0x00000016 &#125;,</span><br><span class="line">&#123; 0x48, 0, 0, 0x00000010 &#125;,</span><br><span class="line">&#123; 0x15, 0, 1, 0x00000016 &#125;,</span><br><span class="line">&#123; 0x6, 0, 0, 0x00040000 &#125;,</span><br><span class="line">&#123; 0x6, 0, 0, 0x00000000 &#125;,</span><br></pre></td></tr></table></figure>
+<p><code>16进制格式</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# tcpdump -ddd &apos;port 22&apos;</span><br><span class="line">24</span><br><span class="line">40 0 0 12</span><br><span class="line">21 0 8 34525</span><br><span class="line">48 0 0 20</span><br><span class="line">21 2 0 132</span><br><span class="line">21 1 0 6</span><br><span class="line">21 0 17 17</span><br><span class="line">40 0 0 54</span><br><span class="line">21 14 0 22</span><br><span class="line">40 0 0 56</span><br><span class="line">21 12 13 22</span><br><span class="line">21 0 12 2048</span><br><span class="line">48 0 0 23</span><br><span class="line">21 2 0 132</span><br><span class="line">21 1 0 6</span><br><span class="line">21 0 8 17</span><br><span class="line">40 0 0 20</span><br><span class="line">69 6 0 8191</span><br><span class="line">177 0 0 14</span><br><span class="line">72 0 0 14</span><br><span class="line">21 2 0 22</span><br><span class="line">72 0 0 16</span><br><span class="line">21 0 1 22</span><br><span class="line">6 0 0 262144</span><br><span class="line">6 0 0 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>bpf过滤转为bpf opcode格式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# cat bpf.txt</span><br><span class="line">ld       [8]                            ; load 4 bytes from src MAC</span><br><span class="line">jneq    #0xccddeeff,drop    ; compare 4 bytes, move to next instruction if equal</span><br><span class="line">ldh     [6]                            ; load 2 bytes from src MAC</span><br><span class="line">jneq    #0xaabb,drop         ; compare 2 bytes, move to next instruction if equal</span><br><span class="line">ret #1514                            ; return 1514 bytes of packet</span><br><span class="line">drop:</span><br><span class="line">ret #0                            ; return 0 (no packet)</span><br><span class="line"></span><br><span class="line">root@kali:~# bpfc -i bpf.txt</span><br><span class="line">&#123; 0x20, 0, 0, 0x00000008 &#125;,</span><br><span class="line">&#123; 0x15, 0, 3, 0xccddeeff &#125;,</span><br><span class="line">&#123; 0x28, 0, 0, 0x00000006 &#125;,</span><br><span class="line">&#123; 0x15, 0, 1, 0x0000aabb &#125;,</span><br><span class="line">&#123; 0x6, 0, 0, 0x000005ea &#125;,</span><br><span class="line">&#123; 0x6, 0, 0, 0x00000000 &#125;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>结合其他工具一块使用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">netsniff-ng -iids_9.pcap -b0 -H -ftcp | rg &apos;IPv4 A&apos; | awk &apos;&#123;print $4&#125;&apos; | tr -d &apos;(&apos; | sort | uniq | head | xargs -I% curl -s https://ipapi.co/%/json/ | jq -C &apos;select(.country_name==&quot;Ireland&quot;) | .&apos;</span><br><span class="line"></span><br><span class="line">netsniff-ng -ivpnet udp port 12345|ag Chr| stdbuf -oL awk &apos;&#123;print $3&#125;&apos; |stdbuf -oL tr -d . |while IFS= read -r line; do echo -n $line |base64 -d;done</span><br><span class="line"></span><br><span class="line">netsniff-ng -nn -b1 -ieth0 -l -o - | argus -r - -AZJmRU 1500 -w - | ra -r - -M printer=&quot;hex&quot;</span><br><span class="line"></span><br><span class="line">netsniff-ng -ieth0 --kernel-pull 100 -toutgoing --clrw -b1 -o - | tshark -r - -Tek | jq -C .layers.http | rg -v null</span><br></pre></td></tr></table></figure></section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/python/python内建函数.html">
+        <span class="nav-arrow">← </span>
+        
+          python内建函数
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/linux/commandfu/netsniff-ng.html';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "netsniff-ng",
+        owner: "",
+        repo: "",
+        oauth: {
+          client_id: "",
+          client_secret: ""
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+<script>
+  var disqus_shortname = '';
+  
+  var disqus_url = 'http://yoursite.com/linux/commandfu/netsniff-ng.html';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by ppd
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+
+  </body>
+</html>

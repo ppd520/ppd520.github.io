@@ -192,6 +192,33 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/linux/commandfu/netsniff-ng.html">netsniff-ng</a>
+      </h2>
+      <p class="article-date">2020年1月13日</p>
+      
+      <div class="article-summary">
+        
+          01. 介绍
+官网：http://www.netsniff-ng.org
+生辰：2013年
+使命：高性能处理网络流量
+形态：套件(trafgen, mausezahn, bpfc, ifpps, flowtop, curvetun, astraceroute, netsniff-ng)
+
+02. 技能
+零拷贝(不需要从内核态拷贝到用户态)
+发散聚合IO(支持Scatter/gatherIO)
+mmapIO(replay pcap时用到)
+slow read/write io(遇到老硬盘落盘时可能会用到)
+绑定cpu
+指定网卡ring-buffer(drop数多时会用到)
+进程优先级开关 ...
+        
+      </div>
+      <a class="more" href="/linux/commandfu/netsniff-ng.html">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/python/python内建函数.html">python内建函数</a>
       </h2>
       <p class="article-date">2020年1月13日</p>
@@ -202,7 +229,9 @@
 返回x的绝对值
 参数类型：整数、浮点、复数
 
-123456&gt;&gt;&gt; abs(-100)               #整数100&gt;&gt;&gt; abs(-3.1415926)         #浮点 ...
+123456&gt;&gt;&gt; abs(-100)               #整数100&gt;&gt;&gt; abs(-3.1415926)         #浮点数3.1415926&gt;&gt;&gt; abs(3+4j)               #复数  3^2+4^2 开`平方根`的绝对值5.0
+
+重载 abs, 需要定义 __abs__ 方法123456&gt;&gt;&gt; class my_abs():...         def __ ...
         
       </div>
       <a class="more" href="/python/python内建函数.html">Read more</a>
@@ -223,7 +252,11 @@ POSIX MQ
 02. 内核参数与系统命令系统命令:
 sysv
 
-123456bash# ipcs -ubash# ipcs -lbash# ipcrm --helpbash# ipcmk --helpbash# cat / ...
+123456bash# ipcs -ubash# ipcs -lbash# ipcrm --helpbash# ipcmk --helpbash# cat /proc/sysvipc/msgbash# cat /proc/sys/kernel/msg*
+
+posix
+
+12345678#------操作队列 start------bash# mkdir /dev/mqueuebash# mount -t mqueue none /dev/mqueueba ...
         
       </div>
       <a class="more" href="/linux/kernel/内核IPC之消息队列.html">Read more</a>

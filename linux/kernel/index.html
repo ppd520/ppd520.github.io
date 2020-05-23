@@ -196,6 +196,8 @@
 		
 	
 		
+	
+		
 		
 			
 			    <article class="article-card">
@@ -213,7 +215,11 @@ POSIX MQ
 02. 内核参数与系统命令系统命令:
 sysv
 
-123456bash# ipcs -ubash# ipcs -lbash# ipcrm --helpbash# ipcmk --helpbash# cat / ...
+123456bash# ipcs -ubash# ipcs -lbash# ipcrm --helpbash# ipcmk --helpbash# cat /proc/sysvipc/msgbash# cat /proc/sys/kernel/msg*
+
+posix
+
+12345678#------操作队列 start------bash# mkdir /dev/mqueuebash# mount -t mqueue none /dev/mqueueba ...
 				
 			      </div>
 			      <a class="more" href="/linux/kernel/内核IPC之消息队列.html">Read more</a>
