@@ -92,6 +92,10 @@ pre {
 .article-card:first-child {
   margin-top: 60px;
 }
+.article-head {
+  font-size: 1em;
+  margin-bottom: 0;
+}
 h2.article-head {
   font-size: 1.6em;
   margin-bottom: 0;
